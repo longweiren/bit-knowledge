@@ -20,6 +20,68 @@
 12、thread.interrupt()方法只是设置线程thread的interrupted标志位，并不会阻塞线程执行。如果线程是等待/阻塞/睡眠状态，会抛出InterruptedException；如果线程因IO而阻塞，会抛出ClosedByInterruptException；如果线程因Selector而阻塞，会设置状态立即返回  
 13、thread.join(x)，阻塞当前线程，等待thread线程终止或x毫秒后（两个条件满足一个即可），当前线程进入就绪状态。(join通过使用 wait 实现)
 
-* **使用关键字synchronized**
+##### 使用关键字synchronized
 
 使用synchronized关键字，可以让被保护的代码块串行执行（持有锁的线程可以执行）。
+
+	class Account {
+		public static synchronized void print() {
+			// lock is Account.class 
+		}
+	}
+
+	class Account {
+		public snchronized void print() {
+			// lock is this
+		}
+	}
+
+	class Account {
+		private violatile boolean lockObj;
+
+		public void print() {
+			synchronized(lockObj) {
+				// lock is lockObj
+			}
+		}
+	}
+
+执行 synchronized修饰的同步块时，如果当前线程不能获取锁，则会一直阻塞。
+
+
+##### concurrent包与ReentrantLock
+
+	ReentrantLock lock = new ReentrantLock()
+	lock.lock();  //尝试获取锁，未获取到锁就阻塞 
+	// lock.tryLock();	// 尝试获取锁，获取成功返回true，获取失败返回false，不会阻塞
+	lock.unlock(); // 如果当前线程没有持有锁lock，则抛出IllegalMonitorStateException异常，否则正常释放锁。可以使用isHeldByCurrentThread()判断是否被当前线程持有。
+
+ReentrantLock默认使用非公平锁，也可以选择使用公平锁（公平锁在某些场景下性能反而不好）。同时使用tryLock也可以避免未获取锁时一直阻塞当前线程。
+
+同时concurrent包还实现了ReentrantReadWriteLock，实现了读锁和写锁分离。
+
+	// 代码来源于jdk源码
+	class CachedData {
+		Object data;
+		volatile boolean cacheValid;
+		ReentrantReadWriteLcok lock = new ReentrantReadWriteLock();
+
+		void process(){
+			lock.readLock().lock();
+			if(!cacheValid){
+				// 需要先释放读锁才能获取写锁
+				lock.readLock().unlock();
+				lock.writeLock().lock();
+				// 需要再次检查cacheValid，因为其他线程可能先获取写锁再修改cacheValid值
+				if(!cacheValid) {
+					data = ...
+					cacheValid = true;
+				}
+				// 释放写锁前，通过获取读锁降级
+				lock.readLock().lock();
+				lock.writeLock().unlock(); // 释放写锁，仍持有读锁 
+			}
+			use(data);
+			lock.readLock().unlock();
+		}
+	}
