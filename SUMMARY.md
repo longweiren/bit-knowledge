@@ -6,6 +6,7 @@ this is the summary of my book.
     * [JDBC](Java/core/JDBC.md)
     * [ThreadLocal](Java/core/ThreadLocal.md)
     * [锁](Java/core/lock.md)
+    * [JVM](Java/core/JVM.md)
     * [Ibatis](Java/framework/ibatis.md)
     * [SpringFramework](Java/framework/spring.md)
 * [JavaScript](JavaScript/framework/README.md)

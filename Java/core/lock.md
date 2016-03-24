@@ -85,3 +85,7 @@ ReentrantLock默认使用非公平锁，也可以选择使用公平锁（公平�
 			lock.readLock().unlock();
 		}
 	}
+
+##### concurrent包其他同步器
+
+除了互斥排他锁、读写锁，还有`信号量`、`屏障`、`Future`、`事件指示器`以及`传送队列`等同步器
