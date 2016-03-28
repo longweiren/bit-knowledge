@@ -111,6 +111,7 @@ jdbc.password=123456
 	如果是CachingStatement，先从CacheModel中查询目标内容，如果没有命中，继续下面流程； 
 
 	从transaction中获取一个Connection对象;  
+    调用SqlExecutor.executeUpdate(request, connection, sqlString, param)  
 	获得一个preparedStatement(通过connection.preparedStatement()获得,或者当statementCachingEnabled=true时，可能会从**session的缓存**中获取);  
 	设置preparedStatement的timeout;  
 	设置preparedStatement的parameters;  

@@ -18,7 +18,8 @@
 10、线程没有需要再执行的字节码，进入终止状态。  
 11、如果当前线程并未持有某个锁lock，调用lock的wait 或  notify 方法，会抛出 IllegalMonitorStateException异常。  
 12、thread.interrupt()方法只是设置线程thread的interrupted标志位，并不会阻塞线程执行。如果线程是等待/阻塞/睡眠状态，会抛出InterruptedException；如果线程因IO而阻塞，会抛出ClosedByInterruptException；如果线程因Selector而阻塞，会设置状态立即返回  
-13、thread.join(x)，阻塞当前线程，等待thread线程终止或x毫秒后（两个条件满足一个即可），当前线程进入就绪状态。(join通过使用 wait 实现)
+13、thread.join(x)，阻塞当前线程，等待thread线程终止或x毫秒后（两个条件满足一个即可），当前线程进入就绪状态。(join通过使用 wait 实现)  
+14、daemon==true的线程，非daemon线程终止时，daemon线程也随之结束（即使当时daemon线程仍在运行中）。也就是说只有daemon线程是活动状态时，JVM可以退出执行。
 
 ##### 使用关键字synchronized
 
