@@ -21,6 +21,7 @@ this is the summary of my book.
     * [设计模式](design/DP.md)
     * [算法](design/算法.md)
 * [ProjectManage](ProjectManage/READNE.md)
+    * [PM](ProjectManage/PM.md)
     * [Git](ProjectManage/git.md)
     * [Maven](ProjectManage/maven.md)
     * [Gradle](ProjectManage/gradle.md)
