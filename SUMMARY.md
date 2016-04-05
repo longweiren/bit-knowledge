@@ -3,6 +3,7 @@
 this is the summary of my book.
 
 * [Java](Java/core/README.md)
+    * [Collection](Java/core/collections.md)
     * [JDBC](Java/core/JDBC.md)
     * [ThreadLocal](Java/core/ThreadLocal.md)
     * [锁](Java/core/lock.md)
