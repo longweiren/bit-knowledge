@@ -30,7 +30,7 @@ set(index, E)， 替换指定位置的元素
 
 * TreeMap(红黑树)
 
-*参考[平衡查找树](../design/算法.html)*
+*参考[平衡查找树](../../design/算法.html)*
 
 默认根据key排序，可自定义Comparator
 
