@@ -12,7 +12,7 @@ Java程序员日常开发中很少遇到该类错误。 `StackOverflowError.java
 
 接下来，我们会分析Java中怎样出现 StackOverFlow 以及避免出现StackOverFlow；还会分析Scala中的尾递归为什么不会出现StackOverFlow，而Scala中的首递归同样会出现StackOverFlow的原因。show me the code:
 
-1. Java 递归出现 StackOverFlow Error
+**Java 递归出现 StackOverFlow Error**
 
 ```
 public class Rec1 {
@@ -50,7 +50,7 @@ n大概加到7000左右时会出现 StackOverFlow Error，并退出应用。
 ```
 从0～4行完成打印操作后，7～8行实现本地变量0(静态方法的本地变量0即是参数1)与常量1相加，结果替换本地变量0；第10行调用其他方法（递归调用本方法），这个地方会创建`栈帧`。当递归调用一直往下调用（递归调用一般要设置退出递归的条件，防止无限递归），就会出现栈溢出错误。
 
-2. Java 循环解决 StackOverFlow Error
+**Java 循环解决 StackOverFlow Error**
 
 ```
 public class Rec2 {
@@ -84,7 +84,7 @@ public class Rec2 {
 
 0～4行依然是打印操作；第7行实现本地变量0自增1（安全操作，与i++不同），第10行的地方我们看到使用的是 goto指令，并不是invoke*指令。这个地方没有方法调用，不会创建栈帧，会使用当前栈帧继续执行指令。
 
-3. Scala 中的尾递归没有  StackOverFlow Error
+**Scala 中的尾递归没有  StackOverFlow Error**
 
 ``` Hello.scala
 object Hello {
@@ -95,7 +95,7 @@ object Hello {
     def process(line: Integer): Integer = {
         println(line);
         if(line > 100000) {
-          line;
+          return line;
         }
         process(line + 1);
 
@@ -146,33 +146,35 @@ Hello$.class
          0: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
          3: aload_1
          4: invokevirtual #34                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+
          7: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
         10: aload_1
         11: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
         14: ldc           #39                 // int 100000
-        16: if_icmple     23
+        16: if_icmple     21
+
         19: aload_1
-        20: goto          26
-        23: getstatic     #45                 // Field scala/runtime/BoxedUnit.UNIT:Lscala/runtime/BoxedUnit;
-        26: pop
-        27: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        30: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        33: aload_1
-        34: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
-        37: iconst_1
-        38: iadd
-        39: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
-        42: astore_1
-        43: goto          0
+        20: areturn
+
+        21: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        24: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        27: aload_1
+        28: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
+        31: iconst_1
+        32: iadd
+        33: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
+        36: astore_1
+
+        37: goto          0
 ```
 
 分析反编译后的代码我们可以发现，`Hello.scala`编译后生成了两个class文件（Hello.class, Hello$.class）。
 
 Hello.class中main方法是入口，持有一个Hello$类型的对象MODULE$。main方法调用MODULE$的process方法。
 
-而Hello$.class中的代码基本反映了Hello.scala源代码。main方法反映了Hello.scala中的main方法（只是此处不是静态方法）。首先会调用Predef$.println打印本地变量1（也就是方法参数1，实例方法的参数0默认是this）；接着if_icmple判断条件；然后把本地变量1和常量1相加，结果替换本地变量1；最后43行的goto指令跳转到0行继续执行（没有调用方法，所以不会创建栈帧，和上面的for循环一样）。
+而Hello$.class中的代码基本反映了Hello.scala源代码。main方法反映了Hello.scala中的main方法（只是此处不是静态方法）。首先会调用Predef$.println打印本地变量1（也就是方法参数1，实例方法的参数0默认是this）；接着if_icmple判断条件；然后把本地变量1和常量1相加，结果替换本地变量1；最后37行的goto指令跳转到0行继续执行（没有调用方法，所以不会创建栈帧，和上面的for循环一样）。
 
-4. Scala 中的非尾递归也会有 StackOverFlow Error
+**Scala 中的非尾递归也会有 StackOverFlow Error**
 
 ```
 object Hello1 {
@@ -183,7 +185,7 @@ object Hello1 {
     def process(line: Integer): Integer = {
         println(line);
         if(line > 100000) {
-          line;
+          return line;
         }
         process(line + 1) + 1;
 
@@ -205,31 +207,33 @@ object Hello1 {
          0: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
          3: aload_1
          4: invokevirtual #34                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+
          7: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
         10: aload_1
         11: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
         14: ldc           #39                 // int 100000
-        16: if_icmple     23
+        16: if_icmple     21
+
         19: aload_1
-        20: goto          26
-        23: getstatic     #45                 // Field scala/runtime/BoxedUnit.UNIT:Lscala/runtime/BoxedUnit;
-        26: pop
-        27: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        30: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        33: aload_0
-        34: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        37: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
-        40: aload_1
-        41: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
-        44: iconst_1
-        45: iadd
-        46: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
-        49: invokevirtual #27                 // Method process:(Ljava/lang/Integer;)Ljava/lang/Integer;
-        52: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
-        55: iconst_1
-        56: iadd
-        57: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
-        60: areturn
+        20: areturn
+
+        21: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        24: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        27: aload_0
+        28: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        31: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+        34: aload_1
+        35: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
+        38: iconst_1
+        39: iadd
+        40: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
+        43: invokevirtual #27                 // Method process:(Ljava/lang/Integer;)Ljava/lang/Integer;
+
+        46: invokevirtual #38                 // Method scala/Predef$.Integer2int:(Ljava/lang/Integer;)I
+        49: iconst_1
+        50: iadd
+        51: invokevirtual #23                 // Method scala/Predef$.int2Integer:(I)Ljava/lang/Integer;
+        54: areturn
 ```        
 
-我们主要关注49行的process递归调用，这里是发生栈溢出的关键。
+我们主要关注43行的process递归调用，这里是发生栈溢出的关键。
