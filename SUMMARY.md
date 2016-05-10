@@ -5,7 +5,7 @@ this is the summary of my book.
 * [Java]
     * [Java集合类](Java/core/collections.md)
     * [浅析StackOverFlow](Java/core/StackOverFlow.md)
-    * [Java ByteCode Instruction CheetSheet](Java/core/bytecode.md)
+    * [Java_ByteCode_Instruction_CheetSheet](Java/core/bytecode.md)
     * [JDBC](Java/core/JDBC.md)
     * [ThreadLocal](Java/core/ThreadLocal.md)
     * [锁](Java/core/lock.md)
