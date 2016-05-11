@@ -4,13 +4,15 @@
 
 **局部变量中的 `+`**
 
-> （代码1）
-> public void process() {
->   int a = 0;
->   a = a + 1;  // (1)
->   a += 1;     // (2)
->   a++;        // (3)
-> }
+```
+(代码1)
+public void process() {
+  int a = 0;
+  a = a + 1;  // (1)
+  a += 1;     // (2)
+  a++;        // (3)
+}
+```
 
 代码1中，(1), (2), (3)都实现对变量 a 的加1操作，但是细节方面有细微差异。我们看下编译后的代码：
 
@@ -45,15 +47,17 @@
 
 **实例变量中的`+`**
 
-> （代码2）
-> public class Plus {
->   private int a = 0;
->   public void process() {
->       a = a + 1;  // (1)
->       a += 1;     // (2)
->       a++;        // (3)
->   }
-> }
+```
+(代码2)
+public class Plus {
+  private int a = 0;
+  public void process() {
+      a = a + 1;  // (1)
+      a += 1;     // (2)
+      a++;        // (3)
+  }
+}
+```
 
 编译后的字节码
 
@@ -110,19 +114,24 @@
 
 **字符串连接操作**
 
-> public void process() {
->   String str = "abc" + "123"; (1)
->   str = str + "!";            (2)
-> }
+```
+(代码3)
+public void process() {
+  String str = "abc" + "123"; (1)
+  str = str + "!";            (2)
+}
+```
 
 简单的两行代码，编译后的代码如下：
 
 ```
   public void process2();
     Code:
+        // String str = "abc" + "123";
        0: ldc           #3                  // String abc123
        2: astore_1
 
+       // str = str + "!";
        3: new           #4                  // class java/lang/StringBuilder
        6: dup
        7: invokespecial #5                  // Method java/lang/StringBuilder."<init>":()V
