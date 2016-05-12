@@ -377,8 +377,7 @@ after : ..., result
 > value1 or value2 is NaN=> dcmpg return 1, dcmpl return -1
 
 
-
-25. dconst_<d>
+25. \dconst_<d>\
 
 > 把常量0.0 or 1.0如操作数栈。d取0 或1. dconst_0 => 压入 0.0; dconst_1 => 压入 1.0
 
@@ -387,124 +386,611 @@ before: ...
 after : ..., <d>   
 
 26. ddiv
-27. dload
-28. dload_<n>
+
+> 两个 double 相除
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> 0 / 0 => NaN
+> 0 / finite => 0
+> finite / 0 => infinite
+> infinity / finite => (+-)infinity
+> finite / infinity => 0
+> infinity / infinity => NaN
+> value1 or value2 is NaN=> NaN
+
+27. dload #index
+
+> 加载本地变量 double 值到栈顶。index为本地变量索引
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
+28. \dload_<n>\
+
+> 加载本地变量 double 值到栈顶。n为本地变量索引，取值范围为[0,3]
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
 29. dmul
+
+> 两个 double 相乘
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 or value2 is NaN => NaN
+> infinity * 0 => NaN
+> infinity * finite => infinity
+
 30. dneg
+
+> double 值取反
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., -value   
+
+> NaN => NaN
+> infinity => -infinity
+> 0 => -0
+
 31. drem
+
+> 两个 double 值求余。 value1 % value2
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 or value2 is NaN => NaN
+> (infinity) % (0) => NaN
+
 32. dreturn
-33. dstore
-34. dstore_<n>
+
+> 方法返回 double 值。当前方法执行结束，栈帧销毁。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : 销毁   
+
+33. dstore #index
+
+> 为本地变量赋 double 值。index为本地变量索引。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ...   
+
+34. \dstore_<n>\
+
+> 为本地变量赋 double 值。n为本地变量索引。n 取值范围为[0, 3]
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ...   
+
 35. dsub
+
+> 两个 double 相减
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
 36. dup
+
+> 复制栈顶元素
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., value, value   
+
 37. dup_x1
+
+> 复制栈顶元素，并放在栈顶2个元素之下
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., [value2], value1, value2   
+
 38. dup_x2
+
+> 复制栈顶元素，并放在栈顶3个元素之下
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2, value3  
+after : ..., [value3], value1, value2, value3   
+
 39. dup2
+
+> 复制栈顶两个元素，并放在栈顶2个元素之下
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., [value1, value2], value1, value2   
+
 40. dup2_x1
+
+> 复制栈顶两个元素，并放在栈顶3个元素之下
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2, value3  
+after : ..., [value2, value3], value1, value2, value3   
+
 41. dup2_x2
-f2d
-f2i
-f2l
-fadd
-faload
-fastore
-fcmp<op>
-fconst_<f>
-fdiv
-fload
-fload_<n>
-fmul
-fneg
-frem
-freturn
-fstore
-fstore_<n>
-fsub
-getfield
-getstatic
-goto
-goto_w
-i2b
-i2c
-i2d
-i2f
-i2l
-i2s
-iadd
-iaload
-iand
-iastore
-if_acmp<cond>
-if_icmp<cond>
-if<cond>
-ifnonnull
-ifnull
-iinc
-iload
-iload_<n>
-imul
-ineg
-instanceof
-invokedynamic
-invokeinterface
-invokespecial
-invokestatic
-invokevirtual
-ior
-irem
-ireturn
-ishl
-ishr
-istore
-istore_<n>
-isub
-iushr
-ixor
-l2d
-l2f
-l2i
-ladd
-laload
-land
-lastore
-lcmp
-lconst_<l>
-ldc
-ldc_w
-ldc2_w
-ldiv
-lload
-lload_<n>
-lmul
-lneg
-lookupswitch
-lor
-lrem
-lreturn
-lshl
-lshr
-lstore
-lstore_<n>
-lsub
-lushr
-lxor
-monitorenter
-monitorexit
-multianewarray
-new
-newarray
-nop
-pop
-pop2
-putfield
-putstatic
-return
-saload
-sastore
-sipush
-swap
-tableswitch
-wide
+
+> 复制栈顶两个元素，并放在栈顶4个元素之下
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2, value3, value4  
+after : ..., [value3, value4], value1, value2, value3, value4   
+
+42. f2d
+
+> float 值转换为 double
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+43. f2i
+
+> float 值转换为 int
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+44. f2l
+
+> float 值转换为 long
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+45. fadd
+
+> 两个 float 值相加
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 or value2 is NaN => NaN
+> infinity + -infinity => NaN
+> infinity + infinity => infinity
+> infinity + finity => infinity
+
+46. faload
+
+> 从数组加载 float 值
+
+JVM Stack变化情况(当前栈):  
+before: ..., arrayref, index  
+after : ..., value   
+
+47. fastore
+
+> 为数组元素赋 float 值
+
+JVM Stack变化情况(当前栈):  
+before: ..., arrayref, index, value  
+after : ...   
+
+48. fcmp<op>
+
+> 比较两个 float。分为两个指令 fcmpg, fcmpl
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 > value2 => 1
+> value1 < value2 => -1
+> value1 = value2 => 0
+> value1 or value2 is NaN=> fcmpg return 1, fcmpl return -1
+
+49. fconst_/<f>/
+
+> 把常量0.0 or 1.0 or 2.0 入操作数栈。
+> fconst_0 => 压入 0.0; 
+> fconst_1 => 压入 1.0；
+> fconst_2 => 压入 2.0；
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., \<f>\
+
+50. fdiv
+
+> 两个 float 相除
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> 0 / 0 => NaN
+> 0 / finite => 0
+> finite / 0 => infinite
+> infinity / finite => (+-)infinity
+> finite / infinity => 0
+> infinity / infinity => NaN
+> value1 or value2 is NaN=> NaN
+
+51. fload #index
+
+> 加载本地变量 float 值到栈顶。index为本地变量索引
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
+52. fload_<n>
+
+> 加载本地变量 float 值到栈顶。n为本地变量索引，取值范围为[0,3]
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
+53. fmul
+
+> 两个 float 相乘
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 or value2 is NaN => NaN
+> infinity * 0 => NaN
+> infinity * finite => infinity
+
+54. fneg
+
+> float 值取反
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., -value   
+
+> NaN => NaN
+> infinity => -infinity
+> 0 => -0
+
+55. frem
+
+> 两个 float 值求余。 value1 % value2
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+> value1 or value2 is NaN => NaN
+> (infinity) % (0) => NaN
+
+56. freturn
+
+> 方法返回 float 值。当前方法执行结束，栈帧销毁。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : 销毁   
+
+57. fstore #index
+
+> 为本地变量赋 float 值。index为本地变量索引。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ...   
+
+58. fstore_<n>
+
+> 为本地变量赋 float 值。n为本地变量索引。n 取值范围为[0, 3]
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ...   
+
+59. fsub
+
+> 两个 float 相减
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+60. getfield #index
+
+> 获取实例对象属性。index为对象属性在常量池索引。
+
+JVM Stack变化情况(当前栈):  
+before: ..., objectref  
+after : ..., fieldValue   
+
+61. getstatic
+
+> 获取类静态属性。index为类静态属性在常量池索引。
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., fieldValue   
+
+62. goto #line
+
+> 跳转到line指定的代码偏移位置（我习惯称之为代码行）继续执行
+
+JVM Stack变化情况(当前栈):无变化
+
+63. goto_w #line
+
+> 跳转到line指定的代码偏移位置（我习惯称之为代码行）继续执行。
+> 与goto指令的区别：goto指定的偏移位置可以是两个参数，每个参数代表一个byte；而goto_w指定的偏移位置可以是四个参数。
+> 
+> 例如 goto byte1 byte2; 会跳转到 byte1 << 8 | byte2
+> goto_w byte1 byte2 byte3 byte4; 会跳转到 byte1 << 24 | byte2 << 16 | byte3 << 8 | byte4
+
+JVM Stack变化情况(当前栈):无变化
+
+64. i2b
+
+> int 值转换为 byte
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+65. i2c
+
+> int 值转换为 char
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+66. i2d
+
+> int 值转换为 double
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+67. i2f
+
+> int 值转换为 float
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+68. i2l
+
+> int 值转换为 long
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+69. i2s
+
+> int 值转换为 short
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., result   
+
+70. iadd
+
+> 两个 int 值相加
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+71. iaload
+
+> 从数组加载 int 值
+
+JVM Stack变化情况(当前栈):  
+before: ..., arrayref, index  
+after : ..., value   
+
+72. iand
+
+> value1 & value2.
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+73. iastore
+
+> 为数组元素赋 int 值
+
+JVM Stack变化情况(当前栈):  
+before: ..., arrayref, index, value  
+after : ...   
+
+74. iconst_<i>
+
+> 把常量入操作数栈。i取值范围为[0, 5]
+> iconst_0 => 压入 0; 
+> iconst_1 => 压入 1；
+> iconst_2 => 压入 2；
+> iconst_3 => 压入 3; 
+> iconst_4 => 压入 4；
+> iconst_5 => 压入 5；
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., \<f>\
+
+75. idiv
+
+> 两个 int 相除
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+75. if_acmp<cond> #index
+
+> if_acmpeq 比较栈顶两个引用是否为同一个。
+> if_acmpne 比较栈顶两个引用是否不为同一个。
+> 满足条件的跳转到index指定的偏移位置继续执行。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ...   
+
+75. if_icmp<cond> #index
+
+> if_icmpeq 比较栈顶两个int是否相等。
+> if_icmpne 比较栈顶两个int是否不相等。
+> 满足条件的跳转到index指定的偏移位置继续执行。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ...   
+
+76. if<cond> #index
+
+> ifeq 比较栈顶int值 == 0。
+> ifne 比较栈顶int值 != 0。
+> iflt 比较栈顶int值 <  0。
+> ifle 比较栈顶int值 <= 0。
+> ifgt 比较栈顶int值 >  0。
+> ifge 比较栈顶int值 >= 0。
+> 满足条件的跳转到index指定的偏移位置继续执行。
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ...   
+
+77. ifnonnull #index
+
+> ref不为空跳转到index指定的偏移位置继续执行。
+
+JVM Stack变化情况(当前栈):  
+before: ..., ref  
+after : ...   
+
+78. ifnull #index
+
+> ref为空跳转到index指定的偏移位置继续执行。
+
+JVM Stack变化情况(当前栈):  
+before: ..., ref  
+after : ...   
+
+79. iinc #index const
+
+> 索引位置为index的本地变量 + const
+
+JVM Stack变化情况(当前栈):无变化   
+
+80. iload #index
+
+> 加载本地变量 int 值到栈顶。index为本地变量索引
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
+81. iload_<n> #index
+
+> 加载本地变量 int 值到栈顶。n为本地变量索引,取值范围为[0, 3]
+
+JVM Stack变化情况(当前栈):  
+before: ...  
+after : ..., value   
+
+82. imul
+
+> 两个 int 相乘
+
+JVM Stack变化情况(当前栈):  
+before: ..., value1, value2  
+after : ..., result   
+
+83. ineg
+
+> int 值取反
+
+JVM Stack变化情况(当前栈):  
+before: ..., value  
+after : ..., -value   
+a
+84. instanceof
+85. invokedynamic
+86. invokeinterface
+87. invokespecial
+88. invokestatic
+89. invokevirtual
+90. ior
+91. irem
+92. ireturn
+93. ishl
+94. ishr
+95. istore
+96. istore_<n>
+97. isub
+98. iushr
+99. ixor
+100. l2d
+101. l2f
+102. l2i
+103. ladd
+104. laload
+105. land
+106. lastore
+107. lcmp
+108. lconst_<l>
+109. ldc
+110. ldc_w
+111. ldc2_w
+112. ldiv
+113. lload
+114. lload_<n>
+115. lmul
+116. lneg
+117. lookupswitch
+118. lor
+119. lrem
+120. lreturn
+121. lshl
+122. lshr
+123. lstore
+124. lstore_<n>
+125. lsub
+126. lushr
+127. lxor
+128. monitorenter
+129. monitorexit
+130. multianewarray
+131. new
+132. newarray
+133. nop
+134. pop
+135. pop2
+136. putfield
+137. putstatic
+138. return
+139. saload
+140. sastore
+141. sipush
+142. swap
+143. tableswitch
+144. wide
 
 来源 
 http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html

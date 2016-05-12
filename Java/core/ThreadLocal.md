@@ -8,7 +8,7 @@
 
 ----------
 
-![ThreadLocal内存结构](image/ThreadLocal.png)  
+![ThreadLocal内存结构](image/ThreadLocal.jpeg)  
 
 <pre><code>
 class Account {  

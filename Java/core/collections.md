@@ -1,7 +1,5 @@
 ### Java集合框架
 
-##
-
 * ArrayList（数组）
 
 add(E)，从尾部加入  
