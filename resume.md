@@ -11,9 +11,9 @@
 
 **教育:**      2004年毕业于`北京印刷学院`
 
-  [博客](http://blog.sina.com.cn/dofme)
+  [博客:http://blog.sina.com.cn/dofme](http://blog.sina.com.cn/dofme)
 
-  [github](https://github.com/longweiren/)
+  [github:https://github.com/longweiren/](https://github.com/longweiren/)
 
 ###工作经验(12 years)
 * 2014.05 ~ 至今      印孚瑟斯技术(中国)有限公司，中国平安项目组(上海)
@@ -51,8 +51,7 @@
 ### 技能特长
 
 ```
-对构建企业级应用软件拥有丰富的实践经验，能合理运用合适的框架和技术架构
-设计出符合需求的高质量高性能兼顾扩展性及维护性的应用软件；
+对构建企业级应用软件拥有丰富的实践经验，能合理运用合适的框架和技术架构设计出符合需求的高质量高性能兼顾扩展性及维护性的应用软件；
 
 熟练掌握网络编程、分布式软件技术；
 

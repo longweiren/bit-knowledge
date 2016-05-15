@@ -32,3 +32,4 @@ this is the summary of my book.
     * [Git](PM/git.md)
     * [Maven](PM/maven.md)
     * [Gradle](PM/gradle.md)
+* [个人简介](resume.md)
