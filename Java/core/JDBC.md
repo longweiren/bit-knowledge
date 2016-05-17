@@ -1,6 +1,6 @@
 ### JDBC与事务 ###
 
-<pre><code>
+```
 Class.forName("com.mysql.jdbc.Driver");
 String url = "";
 String user = "root";
@@ -20,15 +20,13 @@ while(rs.next()) {
     System.out.println(rs.getString(1));
   }
 }
+```
 
-1、不放开注释，输出：1\2\3\4\5\6\7。
-2、放开注释(1)，影响数据库查询性能(和数据库交互次数)，不影响返回的数据。
-3、放开注释(2)，输出：1\2\3。
-4、放开注释(3)，输出：3\4\5\6\7。
-5、放开注释(4)，输出：3\6。
-
-</code></pre>
-
+1. 不放开注释， 输出：1\2\3\4\5\6\7。
+2. 放开注释(1)，影响数据库查询性能(和数据库交互次数)，不影响返回的数据。
+3. 放开注释(2)，输出：1\2\3。
+4. 放开注释(3)，输出：3\4\5\6\7。
+5. 放开注释(4)，输出：3\6。
 
 > the JDBC fetch size gives the JDBC driver a hint as to the number of rows that should be fetched from the database when more rows are needed. For large queries that return a large number of objects you can configure the row fetch size used in the query to improve performance by reducing the number database hits required to satisfy the selection criteria. Most JDBC drivers defalt to a fetch size of 10, so if you are reading 1000 objects, increasingthe fetch size to 256 can significantly reduce the time required to fetch the query's results. Usually, a fetch size of one half or one quarter of the total expected result size is optimal. 
 
