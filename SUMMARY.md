@@ -12,6 +12,7 @@ this is the summary of my book.
     * [ThreadLocal](Java/core/ThreadLocal.md)
     * [锁](Java/core/lock.md)
     * [JVM](Java/core/JVM.md)
+    * [Maven使用shouce](Java/tools/maven.md)
     * [Ibatis](Java/framework/ibatis.md)
     * [SpringFramework](Java/framework/spring.md)
 
