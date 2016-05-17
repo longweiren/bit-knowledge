@@ -12,6 +12,7 @@
 **教育:**      2004年毕业于`北京印刷学院`
 
   [博客:http://blog.sina.com.cn/dofme](http://blog.sina.com.cn/dofme)
+  [https://kopcoder.gitbooks.io/bit-knowledge/](https://kopcoder.gitbooks.io/bit-knowledge/)
 
   [github:https://github.com/longweiren/](https://github.com/longweiren/)
 
@@ -54,14 +55,13 @@
 -----
 > 对构建企业级应用软件拥有丰富的实践经验，能合理运用合适的框架和技术架构设计出符合需求的高质量高性能兼顾扩展性及维护性的应用软件；
 
+> 熟练掌握设计模式等架构设计技术；了解 Java/JavaScript 等多种开发语言平台技术及相关框架工具等；
+
+> 熟悉 JVM 及优化技术；
+
 > 熟练掌握网络编程、分布式软件技术；
 
-> 熟练掌握设计模式等架构设计技术；掌握Java/Python/Groovy/Scala/JavaScript 等多种
-开发语言平台技术及相关框架；
-
-> 熟悉JVM 及优化技术；
-
-> 熟悉敏捷开发、迭代开发等多种开发过程技术；
+> 熟悉敏捷开发、迭代开发等多种开发过程；
 
 > 有丰富的项目管理经验，拥有系统集成项目经理证书。
 
