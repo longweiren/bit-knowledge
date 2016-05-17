@@ -3,31 +3,47 @@
 线程间共享数据时，为了保证数据状态一致，通常我们会加锁(`synchronized`, `ReentrantLock`, `CAS`);而线程间保持数据独立，我们就需要用到ThreadLocal。ThreadLocal变量可以使得在多线程间互不影响，接下来我们看一看是怎么实现的。
 
 
-
 ##### 内存中的对象  
 
 ----------
 
 ![ThreadLocal内存结构](image/ThreadLocal.jpeg)  
 
-<pre><code>
+```
 class Account {  
   ThreadLocal var1;  
   ThreadLocal var2;  
   ......  
 
-  pubic void action() {
-    var1.set(v1);       //(1)
-    value = var1.get(); //(2)
+  pubic void action(Object obj1， Object obj2) {
+    var1.set(obj1);         // (1)
+    value = var1.get();     // (2)
+
+    var2.set(obj2);         // (3)
+    value = var2.get();     // (4)
   }
 }  
-</code></pre>
+```
 
 当前线程对象（如线程1）持有一个ThreadLocalMap属性，该属性只有当前线程对象可操作。ThreadLocalMap内部持有一个Entry数组，每个Entry包含ThreadLocal变量和一个value。
 
-当在线程1中操作Account对象(如object1)的ThreadLocal变量(如var1 or var2)时，实际上是操作当前线程对象在的ThreadLocalMap属性。
+```
+//thread1
+Object v1, v2; 
+...
+account.action(v1, v2);
+```
+当在线程1中调用 action 方法操作Account对象(如account)的ThreadLocal变量(如var1 or var2)时，实际上是操作线程对象1的ThreadLocalMap属性，key 为 var1 or var2，value 为 v1 or v2。
 
-每个独立线程操作同一个对象（object1）的ThreadLocal变量其实都是操作自己持有的ThreadLocalMap属性，从而确保ThreadLocal变量在线程间保持独立，互不干扰。  
+```
+//thread2
+Object v11, v22; 
+...
+account.action(v11, v22);
+```
+当在线程2中调用 action 方法操作Account对象(如account)的ThreadLocal变量(如var1 or var2)时，实际上是操作线程对象2的ThreadLocalMap属性，key 为 var1 or var2(与线程1一样)，value 为 v11 or v22。
+
+每个独立线程操作同一个对象（account）的ThreadLocal变量其实都是操作自己持有的ThreadLocalMap属性，ThreadLocal变量作为 map 的 key，线程中操作的值作为  value。从而确保ThreadLocal变量在线程间保持独立，互不干扰。  
 
 
 ##### 操作流程  
@@ -42,6 +58,6 @@ class Account {
 
 ##### ThreadLocal与内存泄漏  
 -----
-当object1不在作用域时，不再被其他对象引用，可以被GC回收掉。如果线程1对象仍是存活状态，不能被GC，这是线程1对象持有的ThreadLocalMap属性中持有的Entry(var1, v1)也不能被回收（仍被有效对象引用），造成Entry(var1, v1)是废对象的同时也不能被回收，造成内存泄漏。
+当 account 对象不在作用域时，不再被其他对象引用，可以被GC回收掉。如果线程1对象仍是存活状态，不能被GC，这时线程1对象持有的ThreadLocalMap属性中持有的Entry(var1, v1)也不能被回收（仍被有效对象引用），造成Entry(var1, v1)是废对象的同时也不能被回收，发生内存泄漏。
 
-处理方式：在object1不在有效作用域之前调用ThreadLocal变量的`remove`方法。
+处理方式：在 account 不在有效作用域之前调用ThreadLocal变量的`remove`方法。
