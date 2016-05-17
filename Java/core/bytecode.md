@@ -1,4 +1,4 @@
-### JVM Instruction Set CheetSheet ###
+### JVM Instruction Set CheatSheet ###
 
 1. aaload
 
@@ -377,7 +377,7 @@ after : ..., result
 > value1 or value2 is NaN=> dcmpg return 1, dcmpl return -1
 
 
-25. \dconst_<d>\
+25. /dconst_<d>/
 
 > 把常量0.0 or 1.0如操作数栈。d取0 或1. dconst_0 => 压入 0.0; dconst_1 => 压入 1.0
 
