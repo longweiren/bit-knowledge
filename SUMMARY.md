@@ -3,16 +3,15 @@
 this is the summary of my book.
 
 * [Java]
-    * [认识Java集合类](Java/core/collections.md)
     * [浅析StackOverFlow](Java/core/StackOverFlow.md)
     * [说说Java中的 + 运算符](Java/core/plusInJava.md)
     * [Java中的原始类型](Java/core/autoboxInJava.md)
+    * [理解ThreadLocal](Java/core/ThreadLocal.md)
     * [JVM Instruction Set CheatSheet](Java/core/bytecode.md)
     * [JDBC 与事务](Java/core/JDBC.md)
-    * [理解ThreadLocal](Java/core/ThreadLocal.md)
     * [锁](Java/core/lock.md)
+    * [认识Java集合类](Java/core/collections.md)
     * [JVM](Java/core/JVM.md)
-    * [Maven使用手册](Java/tools/maven.md)
     * [Ibatis](Java/framework/ibatis.md)
     * [SpringFramework](Java/framework/spring.md)
 
@@ -32,6 +31,5 @@ this is the summary of my book.
 * [ProjectManage]
     * [PM](PM/PM.md)
     * [Git](PM/git.md)
-    * [Maven](PM/maven.md)
+    * [Maven使用手册](Java/tools/maven.md)
     * [Gradle](PM/gradle.md)
-* [个人简介](resume.md)
