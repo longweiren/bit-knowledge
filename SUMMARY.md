@@ -7,6 +7,7 @@ this is the summary of my book.
     * [说说Java中的 + 运算符](Java/core/plusInJava.md)
     * [Java中的原始类型](Java/core/autoboxInJava.md)
     * [理解ThreadLocal](Java/core/ThreadLocal.md)
+    * [Java中的 Comparable, Comparator 以及比较操作](Java/core/compare.md)
     * [JVM Instruction Set CheatSheet](Java/core/bytecode.md)
     * [JDBC 与事务](Java/core/JDBC.md)
     * [锁](Java/core/lock.md)
