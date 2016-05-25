@@ -5,10 +5,10 @@
 -----
 `Comparable`接口定义了一个方法 `compareTo`，用于实现了该接口的同一个类不同实例对象之间进行比较。当我们使用`Collections.sort(), Arrays.sort()`对集合或数组中的元素进行排序时，都需要集合或数组中的对象有实现该接口。实现该接口的对象也可以作为`SortedMap`实例中的 key，或者作为 `SortedSet` 实例中的元素。
 
-> `x.compareTo(y)`返回值(n为正数)：
-> -n 当我们希望 x < y时
->  0 当我们希望 x == y时
->  n 当我们希望 x > y时
+> `x.compareTo(y)`返回值(n为正数)：  
+> -n 当我们希望 x < y时  
+>  0 当我们希望 x == y时  
+>  n 当我们希望 x > y时  
 
 * Arrays.sort()
 
@@ -89,7 +89,7 @@ User[] users = [{
 ```
 public void sort(User[] users) {
     Arrays.sort(users); // 使用 Comparable 对元素进行比较排序. 
-    // 结果为[{
+    /* 结果为[{
         name : 'David',
         age  : 16
     },{
@@ -98,7 +98,7 @@ public void sort(User[] users) {
     },{
         name : 'Lucy',
         age  : 19
-    }]
+    }]*/
 }
 ```
 
@@ -118,7 +118,7 @@ Comparator nameComparator = new Comparator<User>(){
 };
 public void sort(User[] users, Comparator nameComparator) {
     Arrays.sort(users, nameComparator); // 使用 Comparator 对元素进行比较排序. 
-    // 结果为[{
+    /* 结果为[{
         name : 'Amy',
         age  ：17
     },{
@@ -127,7 +127,7 @@ public void sort(User[] users, Comparator nameComparator) {
     },{
         name : 'Lucy',
         age  : 19
-    }]
+    }]*/
 }
 ```
 
@@ -140,40 +140,40 @@ Java 中可以使用 `>`, `>=`, `<`, `<=`, `==`对原始数据类型进行比较
 
 > 与比较操作符相关的JVM指令
 > 
-> int 类型比较(char, short, byte会转换为int再比较)
+> int 类型比较(char, short, byte会转换为int再比较)  
 > `>`  转换为 if_icmple(小于等于)     
->   if(a > b){
->     ... code1
->   } else {
->     ... code2
->   }
->   //if_icmple 的意思是，如果 a <= b 则跳转到 code2 继续执行，否则继续执行 code1.
+>   if(a > b){  
+>     ... code1  
+>   } else {  
+>     ... code2  
+>   }  
+>   //if_icmple 的意思是，如果 a <= b 则跳转到 code2 继续执行，否则继续执行 code1.  
 >   
 > `>=` 转换为 if_icmplt(小于)     
 > `==` 转换为 if_icmpne(不等于)     
 > `<`  转换为 if_icmpge(大于等于)     
 > `<=` 转换为 if_icmpgt(大于)     
 > 
-> float 类型比较
-> `>`  转换为 fcmpl + ifle(小于等于)
->   if(a > b){
->     ... code1
->   } else {
->     ... code2
->   }
->   //fcmpl 的意思是比较a和b，
->   //ifle  的意思是如果 fcmpl 比较结果 <=0（也就是a<=b）,则跳转到 code2 继续执行，否则继续执行 code1.
-> `>=` 转换为 fcmpl + iflt(小于)
-> `==` 转换为 fcmpl + ifne(不等于)
-> `<`  转换为 fcmpg + ifge(大于等于)
-> `<=` 转换为 fcmpg + ifgt(大于)
+> float 类型比较  
+> `>`  转换为 fcmpl + ifle(小于等于)  
+>   if(a > b){  
+>     ... code1  
+>   } else {  
+>     ... code2  
+>   }  
+>   //fcmpl 的意思是比较a和b，  
+>   //ifle  的意思是如果 fcmpl 比较结果 <=0（也就是a<=b）,则跳转到 code2 继续执行，否则继续执行 code1.  
+> `>=` 转换为 fcmpl + iflt(小于)  
+> `==` 转换为 fcmpl + ifne(不等于)  
+> `<`  转换为 fcmpg + ifge(大于等于)  
+> `<=` 转换为 fcmpg + ifgt(大于)  
 > 
-> double 类型比较（与 float 类似）
-> `>`  转换为 dcmpl + ifle(小于等于)
-> `>=` 转换为 dcmpl + iflt(小于) 
-> `==` 转换为 dcmpl + ifne(不等于) 
-> `<`  转换为 dcmpg + ifge(大于等于) 
-> `<=` 转换为 dcmpg + ifgt(大于) 
+> double 类型比较（与 float 类似）  
+> `>`  转换为 dcmpl + ifle(小于等于)  
+> `>=` 转换为 dcmpl + iflt(小于)   
+> `==` 转换为 dcmpl + ifne(不等于)   
+> `<`  转换为 dcmpg + ifge(大于等于)   
+> `<=` 转换为 dcmpg + ifgt(大于)   
 
-> 引用类型比较
+> 引用类型比较  
 > if_acmpne(不等于)
