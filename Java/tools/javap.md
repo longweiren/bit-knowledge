@@ -1,4 +1,4 @@
-###javap###
+###使用javap工具分析Java源代码###
 
 ```
  javap [options] classfile
@@ -18,6 +18,7 @@
  -extdir
 ```
 
+带分析class文件对应的Java源文件
 ```
 AnaTool.java
 public class AnaTool {
