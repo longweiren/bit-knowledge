@@ -1,20 +1,22 @@
 ###javap###
 
-> javap [options] classfile
-> 
-> 可选 options
-> -l               显示行号(源代码行与class中指令偏移量)和本地变量表
-> -public          仅显示public的class及members
-> -protected       仅显示public和protected的class和member
-> -private(-p)     显示所有的class和member
-> -s               显示(方法和成员)internal type signatures
-> -sysinfo         显示待处理类的系统信息(path, size, date, MD5 hash)
-> -constants       显示常量(static final)
-> -c               打印反编译代码
-> -verbose         打印操作数栈大小，本地变量数量，方法参数的数量
-> -classpath       javap操作的类所在的路径
-> -bootclasspath
-> -extdir
+```
+ javap [options] classfile
+ 
+ 可选 options
+ -l               显示行号(源代码行与class中指令偏移量)和本地变量表
+ -public          仅显示public的class及members  
+ -protected       仅显示public和protected的class和member
+ -private(-p)     显示所有的class和member
+ -s               显示(方法和成员)internal type signatures
+ -sysinfo         显示待处理类的系统信息(path, size, date, MD5 hash)
+ -constants       显示常量(static final)
+ -c               打印反编译代码
+ -verbose         打印操作数栈大小，本地变量数量，方法参数的数量
+ -classpath       javap操作的类所在的路径
+ -bootclasspath
+ -extdir
+```
 
 ```
 AnaTool.java
@@ -215,45 +217,54 @@ public class AnaTool {
 }
 ```
 
-> 我们以p0方法为例：
-> 源代码：
->  public void p0(String type, int size){
->    size += 5;                 //(line 9)
->    System.out.println(size);  //(line 10)
->  }
->  
-> javap -l 显示行号与字节码偏移对应关系：
->  public void p0(java.lang.String, int);
->    LineNumberTable:
->      line 9: 0        // 从偏移位置0开始
->      line 10: 3       // 从偏移位置3开始
->      line 11: 10      // 从偏移位置10开始（编译器生成的一个return指令）
->      
-> 我们看 javap -c 打印信息更加详细：  
->  public void p0(java.lang.String, int);
->    Code:
->      0: iinc          2, 5
->      3: getstatic     #4  // Field java/lang/System.out:Ljava/io/PrintStream;
->      6: iload_2
->      7: invokevirtual #5  // Method java/io/PrintStream.println:(I)V
->     10: return 
-> 
-> 方法中的第一行代码（在源代码文件中是第9行）`size += 5;`编译后为1条虚拟机指令：iinc  2, 5。从偏移位置（相对于方法）0开始，字节码指令 iinc占一个字节，参数2(代表本地变量2)占1个字节，参数5（常量值5）占一个字节。该行代码总共占3个字节。
-> 
-> 所以第二行代码(在源代码文件中是第10行)`System.out.println(size);`从偏移位置3开始。字节码指令getstatic占1个字节，参数占2个字节(getstatic #indexbyte1 #indexbyte2)，这里的参数由`#4`表示；iload_2指令占1个字节；invokevirtual指令占1个字节，参数占2个字节(invokevirtual #indexbyte1 #indexbyte2)，这里的参数由`#5`表示。该行代码总共占7个字节。
-> 
-> 所以最后由编译器生成的 return 指令从偏移位置10开始。
-> 
-> 这里由一点需要注意，两个参数的位置由 #4 和 #5表示，这两个值可以在运行时常量池中找到(可以通过 javap -verbose 查看)。
+
+我们以p0方法为例：
+```
+ 源代码：
+  public void p0(String type, int size){
+    size += 5;                 //(line 9)
+    System.out.println(size);  //(line 10)
+  }
+```
+
+javap -l 显示行号与字节码偏移对应关系：
+```
+  public void p0(java.lang.String, int);
+    LineNumberTable:
+      line 9: 0        // 从偏移位置0开始
+      line 10: 3       // 从偏移位置3开始
+      line 11: 10      // 从偏移位置10开始（编译器生成的一个return指令）
+```
+
+
+我们看 javap -c 打印信息更加详细：  
+```
+  public void p0(java.lang.String, int);
+    Code:
+      0: iinc          2, 5
+      3: getstatic     #4  // Field java/lang/System.out:Ljava/io/PrintStream;
+      6: iload_2
+      7: invokevirtual #5  // Method java/io/PrintStream.println:(I)V
+     10: return 
+```
+
+方法中的第一行代码（在源代码文件中是第9行）`size += 5;`编译后为1条虚拟机指令：iinc  2, 5。从偏移位置（相对于方法）0开始，字节码指令 iinc占一个字节，参数2(代表本地变量2)占1个字节，参数5（常量值5）占一个字节。该行代码总共占3个字节。
+
+所以第二行代码(在源代码文件中是第10行)`System.out.println(size);`从偏移位置3开始。字节码指令getstatic占1个字节，参数占2个字节(getstatic #indexbyte1 #indexbyte2)，这里的参数由`#4`表示；iload_2指令占1个字节；invokevirtual指令占1个字节，参数占2个字节(invokevirtual #indexbyte1 #indexbyte2)，这里的参数由`#5`表示。该行代码总共占7个字节。
+
+所以最后由编译器生成的 return 指令从偏移位置10开始。
+
+这里由一点需要注意，两个参数的位置由 #4 和 #5表示，这两个值可以在运行时常量池中找到(可以通过 javap -verbose 查看)。
 
 ![](javap-c.jpg)  
 
-> 通过javap -verbose指令我们可以看到:
-> `#4` 是一个 Fieldref(System类的out成员，类型为java.io.PrintStream)。`#4`又引用到`#38`和`#39`。`#38`正好引用到System类(`#49`为字符串表示)；`#39`又间接引用到`#50`, `#51`。`#50`为实例对象out的字符串名称，`#51`为引用到的PrintStream类的字符串表示。
-> 
-> `#5`是一个 MethodRef(PrintStream的println方法)。`#5`又引用到`#40`, `#41`。`#40`正好引用到PrintStream类(`#52`为字符串表示)；而`#41`又间接引用到`#53`, `#54`。`#53`引用实例方法println的字符串表示，`#54`指向(I)V，表示参数是int，返回值为void。
-> 
-> PrintStream的println方法重载多个（参数不一样），`#5`[`#40`[`#52`], `#41`[`#53`, `#54`]]表示我们使用的是PrintStream类的输入参数为int，返回值为void的println方法。
+通过javap -verbose指令我们可以看到:
+
+`#4` 是一个 Fieldref(System类的out成员，类型为java.io.PrintStream)。`#4`又引用到`#38`和`#39`。`#38`正好引用到System类(`#49`为字符串表示)；`#39`又间接引用到`#50`, `#51`。`#50`为实例对象out的字符串名称，`#51`为引用到的PrintStream类的字符串表示。
+ 
+`#5`是一个 MethodRef(PrintStream的println方法)。`#5`又引用到`#40`, `#41`。`#40`正好引用到PrintStream类(`#52`为字符串表示)；而`#41`又间接引用到`#53`, `#54`。`#53`引用实例方法println的字符串表示，`#54`指向(I)V，表示参数是int，返回值为void。
+
+PrintStream的println方法重载多个（参数不一样），`#5`[`#40`[`#52`], `#41`[`#53`, `#54`]]表示我们使用的是PrintStream类的输入参数为int，返回值为void的println方法。
 
 **javap -verbose AnaTool**
 
