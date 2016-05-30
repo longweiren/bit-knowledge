@@ -12,6 +12,8 @@ this is the summary of my book.
     * [JDBC 与事务](Java/core/JDBC.md)
     * [锁](Java/core/lock.md)
     * [认识Java集合类](Java/core/collections.md)
+    * [使用javap](Java/tools/javap.md)
+    * [使用jstat](Java/tools/jstat.md)
     * [JVM](Java/core/JVM.md)
     * [Ibatis](Java/framework/ibatis.md)
     * [SpringFramework](Java/framework/spring.md)
