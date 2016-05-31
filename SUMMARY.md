@@ -14,6 +14,7 @@ this is the summary of my book.
     * [认识Java集合类](Java/core/collections.md)
     * [使用javap](Java/tools/javap.md)
     * [使用jstat](Java/tools/jstat.md)
+    * [Java应用中使用日志框架](Java/tools/log.md)
     * [JVM](Java/core/JVM.md)
     * [Ibatis](Java/framework/ibatis.md)
     * [SpringFramework](Java/framework/spring.md)
