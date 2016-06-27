@@ -1,6 +1,6 @@
 ### JDBC与事务 ###
 
-#####JDBC分页#####
+**JDBC分页**
 
 ```
 Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +33,7 @@ while(rs.next()) {
 > the JDBC fetch size gives the JDBC driver a hint as to the number of rows that should be fetched from the database when more rows are needed. For large queries that return a large number of objects you can configure the row fetch size used in the query to improve performance by reducing the number database hits required to satisfy the selection criteria. Most JDBC drivers defalt to a fetch size of 10, so if you are reading 1000 objects, increasingthe fetch size to 256 can significantly reduce the time required to fetch the query's results. Usually, a fetch size of one half or one quarter of the total expected result size is optimal. 
 
 
-##### ACID
+**ACID**
 数据库事务正确执行的四要素 
  
 原子性Atomicity  
@@ -48,7 +48,7 @@ while(rs.next()) {
 持久性Durability  
 	事务完成后，事务对数据库的操作能持久化到数据库中，不会被回滚
 
-##### 并发事务可能带来的问题
+**并发事务可能带来的问题**
 1、更新丢失  
    两个事务同时更新同一行数据，后提交的事务覆盖先提交的事务  
 
@@ -61,20 +61,63 @@ while(rs.next()) {
 4、幻读(虚读)  
    一个事务两次读取一个范围的数据，两次读取的内容数量不一致。事务B查询数据；事务A操作数据（插入或删除）；事务B再次查询数据（相同sql，也在同一个事务A内，但两次读取的内容不一致）  
 
-##### 事务隔离级别
-1、读取未提交  
+
+* 结合spring了解事务的隔离性和传播性：
+
+**事务传播(Propagation)**
+
+`REQUIRED`  如果当前存在事务，则使用当前事务；否则新建事务。
+
+`SUPPORTS`  如果当前存在事务，则使用当前事务；否则不使用事务。
+
+`MANDATORY` 支持当前事务，如果当前没有事务，则抛出异常
+
+`REQUIRES_NEW`  如果当前存在事务，则挂起当前事务。新建事务执行。
+
+`NOT_SUPPORTED` 如果当前存在事务，则挂起当前事务。以非事务的方式执行。
+
+`NEVER`   如果当前存在事务，抛出异常。以非事务的方式执行。
+
+`NESTED`  如果当前存在事务，则在嵌套事务内执行；如果当前没有事务，则操作类似 `REQUIRED`
+
+**事务隔离**
+
+`DEFAULT`
+
+`READ_COMMITTED`  读取已提交数据（会出现不可重复读、幻读）
+   读事务不会阻塞读事务和写事务  
+   写事务会阻塞读事务和写事务  
+
+`READ_UNCOMMITTED`    读取未提交数据（会出现脏读，不可重复读），基本不会使用
    读事务不会阻塞度事务和写事务    
    写事务不会阻塞读事务  
    写事务会阻塞写事务  
 
-2、读取已提交(解决脏读)  
-   读事务不会阻塞读事务和写事务  
-   写事务会阻塞读事务和写事务  
-
-3、可重复读(解决脏读 + 不可重复读)  
+`REPEATABLE_READ` 可重复读（会出现幻读）
    读事务不会阻塞读事务  
    读事务会阻塞写事务  
-   写事务会阻塞读事务和写事务  
+   写事务会阻塞读事务和写事务 
 
-4、序列化(解决脏读 + 不可重复读 + 幻读)  
+`SERIALIZABLE`  串行化
    读写事务相互阻塞（相当于串行事务了）  
+
+
+**事务回滚**
+
+> 默认抛出 RuntimeException时回滚事务
+
+`rollbackFor` 指定事务内抛出哪些异常时执行回滚操作
+
+`noRollbackFor` 指定事务内抛出哪些异常不执行回滚操作
+
+> rollbackFor=Exception.class, noRollbackFor=RuntimeException.class  
+
+> 抛出除了 RuntimeException 之外的异常时，回滚事务
+
+**只读事务**
+
+> 默认情况是，事务是 read/write模式。当我们设置事务为 readonly=true时，表明该事务为只读事务，在只读事务内不会出现更改数据的操作(修改或删除)，对只读事务做更新操作会抛出异常。
+> 
+> 一般数据库都会对只读事务进行一些优化操作(例如Oracle对只读事务，不启动回滚段，不记录回滚log)。但是单挑查询没有必要使用事务，当我们的业务操作需要多条sql查询时，可以考虑是否需要使用只读事务。
+
+> 当我们做分页查询时，一般会有两条查询一句，一条查询分页的数据，一条查询总数。这时，为保证读一致性，我们可以把分页查询定义为一个 readonly 事务，配合 串行化 事务隔离级别(防止出现幻读)。
