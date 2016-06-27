@@ -7,7 +7,7 @@ this is the summary of my book.
     * [说说Java中的 + 运算符](Java/core/plusInJava.md)
     * [Java中的原始类型](Java/core/autoboxInJava.md)
     * [理解ThreadLocal](Java/core/ThreadLocal.md)
-    * [collections](Java/core/collections.md)
+    * [同步包](Java/core/concurrent.md)
     * [java线程池](Java/core/executors.md)
     * [java io](Java/core/io.md)
     * [Java中的 Comparable, Comparator 以及比较操作](Java/core/compare.md)
